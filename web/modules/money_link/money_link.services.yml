@@ -1,0 +1,5 @@
+services:
+  money_link.event_subscriber:
+    class: Drupal\money_link\EventSubscriber\RedirectIfLoggedInSubscriber
+    tags:
+      - { name: event_subscriber }

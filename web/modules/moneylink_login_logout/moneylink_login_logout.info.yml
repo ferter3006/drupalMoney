@@ -1,0 +1,5 @@
+name: 'Money Link Login Logout'
+type: module
+description: 'Gestiona el login logout de Money Link'
+package: Custom
+core_version_requirement: ^10 || ^11

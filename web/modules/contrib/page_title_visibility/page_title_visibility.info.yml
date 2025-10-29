@@ -1,0 +1,13 @@
+name: 'Page Title Visibility'
+type: module
+description: Regulate the page title display for node entities.
+core_version_requirement: ^10 || ^11
+dependencies:
+  - drupal:block
+  - drupal:node
+  - drupal:system
+
+# Information added by Drupal.org packaging script on 2024-05-30
+version: '2.0.0'
+project: 'page_title_visibility'
+datestamp: 1717100811

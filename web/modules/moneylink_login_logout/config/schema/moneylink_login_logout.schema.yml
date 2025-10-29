@@ -1,0 +1,7 @@
+block.settings.moneylink_login_logout:
+  type: block_settings
+  label: 'Bloque login logout externo block'
+  mapping:
+    example:
+      type: string
+      label: Example

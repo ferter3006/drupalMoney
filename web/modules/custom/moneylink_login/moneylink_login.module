@@ -1,0 +1,21 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @file
+ * Primary module hooks for moneylink_login module.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function moneylink_login_theme(): array {
+  return [
+    'logintemplate' => [
+      'variables' => ['form' => NULL],
+    ]
+  ];
+}
+
+

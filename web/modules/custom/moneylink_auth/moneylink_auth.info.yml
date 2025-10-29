@@ -1,0 +1,5 @@
+name: 'moneylink_auth'
+type: module
+description: 'logica de autenticacion'
+package: moneylink
+core_version_requirement: ^10 || ^11

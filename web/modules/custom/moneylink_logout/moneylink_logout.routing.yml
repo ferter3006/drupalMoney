@@ -1,0 +1,7 @@
+moneylink_logout:
+  path: '/ml/logout'
+  defaults:
+    _title: 'Moneylink Logout'
+    _controller: '\Drupal\moneylink_logout\Controller\MoneylinkLogoutController'
+  requirements:
+    _permission: 'access content'

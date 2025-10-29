@@ -1,0 +1,5 @@
+name: 'money_link'
+type: module
+description: 'Modulo para gestionar conexion con la Api de Money Link'
+package: Custom
+core_version_requirement: ^10 || ^11

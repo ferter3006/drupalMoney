@@ -1,0 +1,7 @@
+ml.login:
+  path: '/ml/login'
+  defaults:
+    _title: 'Login'
+    _controller: '\Drupal\moneylink_login\Controller\MoneylinkLoginController'
+  requirements:
+    _permission: 'access content'

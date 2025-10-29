@@ -1,0 +1,39 @@
+money_link.login_form:
+  path: '/moneylink/login'
+  defaults:
+    _title: 'Login'
+    _controller: '\Drupal\money_link\Controller\LoginFormController'
+  requirements:
+    _permission: 'access content'
+
+money_link.user_panel:
+  path: '/moneylink/user-panel'
+  defaults:
+    _title: 'User Panel'
+    _controller: '\Drupal\money_link\Controller\UserPanelController'
+  requirements:
+    _permission: 'access content'
+
+money_link.admin_panel:
+  path: '/moneylink/admin-panel'
+  defaults:
+    _title: 'Admin Panel'
+    _controller: '\Drupal\money_link\Controller\AdminPanelController'
+  requirements:
+    _permission: 'access content'
+
+money_link.logout:
+  path: 'moneylink/logout'
+  defaults:
+    _title: 'Logout'
+    _controller: '\Drupal\money_link\Controller\LogoutController'
+  requirements:
+    _permission: 'access content'
+
+money_link.home:
+  path: '/home'
+  defaults:
+    _title: 'Home'
+    _controller: '\Drupal\money_link\Controller\HomeController'
+  requirements:
+    _permission: 'access content'
