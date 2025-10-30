@@ -1,0 +1,66 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the moneylink_userpanel module.
+ */
+
+use Drupal\system\Entity\Menu;
+use Drupal\menu_link_content\Entity\MenuLinkContent;
+
+/**
+ * Implements hook_install().
+ */
+function moneylink_userpanel_install() {
+  // Crear menú personalizado para MoneyLink
+  $menu = Menu::create([
+    'id' => 'moneylink-user-menu',
+    'label' => 'MoneyLink User Menu',
+    'description' => 'Menú de navegación para usuarios de MoneyLink',
+  ]);
+  $menu->save();
+
+  // Crear enlaces del menú
+  $menu_links = [
+    [
+      'title' => 'Panel de Usuario',
+      'link' => ['uri' => 'internal:/ml/userpanel'],
+      'menu_name' => 'moneylink-user-menu',
+      'weight' => 0,
+    ],
+    [
+      'title' => 'Mis Salas',
+      'link' => ['uri' => 'internal:/ml/salas'],
+      'menu_name' => 'moneylink-user-menu',
+      'weight' => 1,
+    ],
+    [
+      'title' => 'Mi Perfil',
+      'link' => ['uri' => 'internal:/ml/perfil'],
+      'menu_name' => 'moneylink-user-menu',
+      'weight' => 2,
+    ],
+    [
+      'title' => 'Cerrar Sesión',
+      'link' => ['uri' => 'internal:/ml/logout'],
+      'menu_name' => 'moneylink-user-menu',
+      'weight' => 3,
+    ],
+  ];
+
+  foreach ($menu_links as $link_data) {
+    $menu_link = MenuLinkContent::create($link_data);
+    $menu_link->save();
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function moneylink_userpanel_uninstall() {
+  // Eliminar el menú personalizado
+  $menu = Menu::load('moneylink-user-menu');
+  if ($menu) {
+    $menu->delete();
+  }
+}

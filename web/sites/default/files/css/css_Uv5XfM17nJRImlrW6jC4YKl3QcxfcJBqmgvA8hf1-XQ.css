@@ -1,0 +1,10 @@
+/* @license GPL-2.0-or-later https://www.drupal.org/licensing/faq */
+.text-align-left{text-align:left;}.text-align-right{text-align:right;}.text-align-center{text-align:center;}.text-align-justify{text-align:justify;}.align-left{float:left;}.align-right{float:right;}.align-center{display:block;margin-right:auto;margin-left:auto;}
+.container-inline div,.container-inline label{display:inline-block;}.container-inline .details-wrapper{display:block;}.container-inline .hidden{display:none;}
+.clearfix::after{display:table;clear:both;content:"";}
+.hidden{display:none;}.visually-hidden{position:absolute !important;overflow:hidden;clip:rect(1px,1px,1px,1px);width:1px;height:1px;word-wrap:normal;}.visually-hidden.focusable:active,.visually-hidden.focusable:focus-within{position:static !important;overflow:visible;clip:auto;width:auto;height:auto;}.invisible{visibility:hidden;}
+.item-list__comma-list,.item-list__comma-list li{display:inline;}.item-list__comma-list{margin:0;padding:0;}.item-list__comma-list li::after{content:", ";}.item-list__comma-list li:last-child::after{content:"";}
+.js .js-hide{display:none;}.js-show{display:none;}.js .js-show{display:block;}@media (scripting:enabled){.js-hide.js-hide{display:none;}.js-show{display:block;}}
+.position-container{position:relative;}
+.reset-appearance{margin:0;padding:0;border:0 none;background:transparent;line-height:inherit;-webkit-appearance:none;appearance:none;}
+.sala-card{background:#fff;border:1px solid #ddd;border-radius:12px;padding:16px;margin-bottom:20px;box-shadow:0 2px 6px rgba(0,0,0,0.08);transition:transform 0.2s ease,box-shadow 0.2s ease;}.sala-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.1);}.sala-field{display:flex;justify-content:space-between;margin-bottom:6px;}.sala-field label{font-weight:600;color:#333;}.sala-field span{color:#555;}

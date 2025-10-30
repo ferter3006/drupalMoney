@@ -1,7 +1,7 @@
 moneylink_perfil.content:
-  path: '/ml/userpanel/perfil'
+  path: '/ml/perfil'
   defaults:
     _controller: '\Drupal\moneylink_perfil\Controller\PerfilController'
-    _title: ''
+    _title: 'Mi Perfil'
   requirements:
     _permission: 'access content'

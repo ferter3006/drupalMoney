@@ -35,6 +35,18 @@ final class MoneyLinkApiSalasService
       return ['status' => 0, 'message' => 'User not authenticated.'];
     }
 
+    // Verificar si el token ha expirado localmente
+    if (!$this->storeService->isTokenValid()) {
+      $this->storeService->clearUserData();
+      \Drupal::service('session_manager')->destroy();
+      
+      return [
+        'status' => 0, 
+        'message' => 'Authentication expired. Please log in again.',
+        'redirect_to_login' => true
+      ];
+    }
+
     try {
       $response = $this->httpClient->get(self::API_BASE_URL . '/me', [
         'headers' => [
@@ -47,6 +59,23 @@ final class MoneyLinkApiSalasService
       $data = json_decode($response->getBody()->getContents(), true);
 
       return $data;
+    } catch (\GuzzleHttp\Exception\ClientException $e) {
+      // Si es un error 401, limpiar token inválido
+      if ($e->getResponse() && $e->getResponse()->getStatusCode() === 401) {
+        $this->storeService->clearUserData();
+        \Drupal::service('session_manager')->destroy();
+        
+        return [
+          'status' => 0, 
+          'message' => 'Authentication expired. Please log in again.',
+          'redirect_to_login' => true
+        ];
+      }
+      
+      return [
+        'status' => 0,
+        'message' => 'Error fetching user salas: ' . $e->getMessage(),
+      ];
     } catch (\Exception $e) {
       return [
         'status' => 0,
@@ -79,6 +108,23 @@ final class MoneyLinkApiSalasService
       $data = json_decode($response->getBody()->getContents(), true);
 
       return $data;
+    } catch (\GuzzleHttp\Exception\ClientException $e) {
+      // Si es un error 401, limpiar token inválido
+      if ($e->getResponse() && $e->getResponse()->getStatusCode() === 401) {
+        $this->storeService->clearUserData();
+        \Drupal::service('session_manager')->destroy();
+        
+        return [
+          'status' => 0, 
+          'message' => 'Authentication expired. Please log in again.',
+          'redirect_to_login' => true
+        ];
+      }
+      
+      return [
+        'status' => 0,
+        'message' => 'Error fetching sala info: ' . $e->getMessage(),
+      ];
     } catch (\Exception $e) {
       return [
         'status' => 0,
@@ -119,6 +165,23 @@ final class MoneyLinkApiSalasService
       $data = json_decode($response->getBody()->getContents(), true);
 
       return $data;
+    } catch (\GuzzleHttp\Exception\ClientException $e) {
+      // Si es un error 401, limpiar token inválido
+      if ($e->getResponse() && $e->getResponse()->getStatusCode() === 401) {
+        $this->storeService->clearUserData();
+        \Drupal::service('session_manager')->destroy();
+        
+        return [
+          'status' => 0, 
+          'message' => 'Authentication expired. Please log in again.',
+          'redirect_to_login' => true
+        ];
+      }
+      
+      return [
+        'status' => 0,
+        'message' => 'Error creating sala: ' . $e->getMessage(),
+      ];
     } catch (\Exception $e) {
       return [
         'status' => 0,

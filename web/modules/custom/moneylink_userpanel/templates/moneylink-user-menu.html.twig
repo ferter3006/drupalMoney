@@ -1,0 +1,25 @@
+{#
+/**
+ * @file
+ * Template for MoneyLink user menu.
+ *
+ * Available variables:
+ * - menu_items: Array of menu items.
+ * - current_path: Current page path.
+ */
+#}
+
+<nav class="moneylink-user-menu" role="navigation" aria-labelledby="moneylink-menu-label">
+  <h2 id="moneylink-menu-label" class="visually-hidden">{{ 'MoneyLink Navigation'|t }}</h2>
+  
+  <ul class="moneylink-menu-list">
+    {% for item in menu_items %}
+      <li class="moneylink-menu-item{{ item.is_current ? ' active' : '' }}">
+        <a href="{{ item.url }}" class="moneylink-menu-link"
+           {% if item.is_current %}aria-current="page"{% endif %}>
+          {{ item.title }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</nav>

@@ -1,5 +1,0 @@
-moneylink_perfil.tab:
-  route_name: moneylink_perfil.content
-  title: 'Perfil'
-  base_route: moneylink_userpanel
-  weight: 0

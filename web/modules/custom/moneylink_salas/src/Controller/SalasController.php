@@ -43,6 +43,11 @@ final class SalasController extends ControllerBase
         
         // Verificar si la API devolvió salas correctamente
         if (isset($result['status']) && $result['status'] === 0) {
+            // Si hay redirección al login, redirigir inmediatamente
+            if (!empty($result['redirect_to_login'])) {
+                throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('Authentication expired. Please log in again.');
+            }
+            
             // Error de la API
             $this->messenger()->addError($this->t('Error al obtener salas: @msg', ['@msg' => $result['message'] ?? 'Unknown error']));
         } elseif (!empty($result['salas']) && is_array($result['salas'])) {

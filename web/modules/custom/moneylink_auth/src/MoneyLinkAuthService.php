@@ -7,6 +7,7 @@ namespace Drupal\moneylink_auth;
 use Drupal\moneylink_store\MoneyLinkStoreService;
 use Drupal\user\Entity\User;
 use GuzzleHttp\Client;
+use Drupal\Core\Session\AccountInterface;
 
 /**
  * Servicio de autenticación para Moneylink.
@@ -64,13 +65,16 @@ final class MoneyLinkAuthService
   {
     $token = $this->storeService->getAuthToken();
     
-    // Cerrar sesión de Drupal
-    if (function_exists('user_logout')) {
-      user_logout();
-    }
-    
-    // Borramos datos del usuario del store
+    // Primero borramos datos del usuario del store para evitar reutilización
     $this->storeService->clearUserData();
+    
+    // Cerrar sesión de Drupal
+    \Drupal::service('session_manager')->destroy();
+
+    // Si no hay token, consideramos que ya estaba deslogueado
+    if (!$token) {
+      return ['status' => 1, 'message' => 'Already logged out.'];
+    }
 
     try {
       $response = $this->httpClient->post('https://ioc.ferter.es/api/users/logout', [
@@ -83,7 +87,6 @@ final class MoneyLinkAuthService
 
       $data = json_decode($response->getBody()->getContents(), true);
 
-
       // Devolvemos los datos de la respuesta
       return $data;
     } catch (\GuzzleHttp\Exception\ClientException $e) {
@@ -93,11 +96,12 @@ final class MoneyLinkAuthService
       $data = json_decode($body, TRUE);
       $api_message = $data['message'] ?? 'Unknown API error during logout.';
 
-      // Devolvemos un mensaje de error personalizado
-      return ['status' => 0, 'message' => 'Logout failed: ' . $api_message];
+      // Aunque falle el logout de la API, ya limpiamos los datos locales
+      return ['status' => 1, 'message' => 'Local logout successful. API logout failed: ' . $api_message];
     } catch (\Exception $e) {
       // Si ocurre un error inesperado, devolvemos un mensaje genérico
-      return ['status' => 0, 'message' => 'An unexpected error occurred during logout: ' . $e->getMessage()];
+      // Pero mantenemos status 1 porque los datos locales ya se limpiaron
+      return ['status' => 1, 'message' => 'Local logout successful. API logout error: ' . $e->getMessage()];
     }
   }
 
@@ -206,9 +210,9 @@ final class MoneyLinkAuthService
     }
 
     // Loguear usuario en Drupal (sesión nativa)
-    // user_login_finalize() es una función global de Drupal
-    if (function_exists('user_login_finalize')) {
-      user_login_finalize($user);
+    if ($user instanceof AccountInterface) {
+      \Drupal::service('session_manager')->regenerate();
+      \Drupal::currentUser()->setAccount($user);
     }
     
     \Drupal::logger('moneylink_auth')->info('User @email logged in via API authentication', [

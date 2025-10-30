@@ -1,5 +1,0 @@
-name: 'moneylink_btnblock'
-type: module
-description: 'Boton de login/logout en header'
-package: 'Moneylink'
-core_version_requirement: ^10 || ^11

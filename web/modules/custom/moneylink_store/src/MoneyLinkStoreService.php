@@ -43,6 +43,24 @@ final class MoneyLinkStoreService {
    */
   public function setAuthToken(string $token): void {
     $this->set('auth_token', $token);
+    $this->set('auth_token_timestamp', time());
+  }
+
+  /**
+   * Verifica si el token actual es válido (no ha expirado).
+   * Asumiendo que los tokens tienen una validez de 24 horas.
+   */
+  public function isTokenValid(): bool {
+    $token = $this->getAuthToken();
+    $timestamp = $this->get('auth_token_timestamp');
+    
+    if (!$token || !$timestamp) {
+      return false;
+    }
+    
+    // Token válido por 15 minutos (900 segundos)
+    $tokenLifetime = 900;
+    return (time() - $timestamp) < $tokenLifetime;
   }
 
   /**
@@ -52,6 +70,7 @@ final class MoneyLinkStoreService {
     $store = $this->tempStoreFactory->get(self::STORE_KEY);
     $store->delete('user_data');
     $store->delete('auth_token');
+    $store->delete('auth_token_timestamp');
   }
 
   /**

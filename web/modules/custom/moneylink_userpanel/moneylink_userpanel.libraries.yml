@@ -1,0 +1,15 @@
+moneylink_menu:
+  version: 1.x
+  css:
+    theme:
+      css/moneylink-menu.css: {}
+  dependencies:
+    - core/drupal
+
+menu_spacing:
+  version: 1.x
+  css:
+    theme:
+      css/menu-spacing.css: {}
+  dependencies:
+    - core/drupal
