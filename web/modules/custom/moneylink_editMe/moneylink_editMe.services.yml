@@ -1,0 +1,6 @@
+services:
+  moneylink_editMe.service:
+    class: Drupal\moneylink_editMe\MoneyLinkEditMeService
+    arguments:
+      - '@http_client'
+      - '@moneylink_store.service'

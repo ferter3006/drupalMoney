@@ -1,0 +1,47 @@
+.moneylink-perfil {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.profile-info {
+  margin-top: 20px;
+}
+
+.profile-field {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+}
+
+.profile-field label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.profile-field span {
+  margin-right: 15px;
+}
+
+.profile-field button {
+  padding: 5px 15px;
+  background-color: #0071b8;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.profile-field button:hover {
+  background-color: #2b8bc6;
+}
+
+.password-change {
+  text-align: center;
+}
+
+.password-change button {
+  padding: 8px 20px;
+  font-size: 1.1em;
+}

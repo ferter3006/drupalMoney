@@ -1,5 +1,5 @@
 name: 'moneylink_login'
 type: module
 description: 'money link login'
-package: moneylink
+package: 'Moneylink'
 core_version_requirement: ^10 || ^11

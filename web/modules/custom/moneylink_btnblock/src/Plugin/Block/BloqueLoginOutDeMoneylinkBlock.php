@@ -32,26 +32,26 @@ final class BloqueLoginOutDeMoneylinkBlock extends BlockBase
     $token = $store->get('auth_token');
 
     if (!$token) {
-      $url = \Drupal\Core\Url::fromUri('internal:/ml/login');
-      $link = \Drupal\Core\Link::fromTextAndUrl($this->t('Log in'), $url)->toRenderable();
-      $link['#attributes']['class'][] = 'btn';
-      $link['#attributes']['class'][] = 'btn-primary';
-      return [
-        '#type' => 'container',
-        '#attributes' => ['class' => ['moneylink-login-block']],
-        'link' => $link,
-      ];
+      $path = 'internal:/ml/login';
+      $text = $this->t('Log in');
+      $btnClass = 'btn-primary';
+      $containerClass = 'moneylink-login-block';
     } else {
-      $url = \Drupal\Core\Url::fromUri('internal:/ml/logout');
-      $link = \Drupal\Core\Link::fromTextAndUrl($this->t('Log out'), $url)->toRenderable();
-      $link['#attributes']['class'][] = 'btn';
-      $link['#attributes']['class'][] = 'btn-secondary';
-      return [
-        '#type' => 'container',
-        '#attributes' => ['class' => ['moneylink-logout-block']],
-        'link' => $link,
-      ];
+      $path = 'internal:/ml/logout';
+      $text = $this->t('Log out');
+      $btnClass = 'btn-secondary';
+      $containerClass = 'moneylink-logout-block';
     }
+
+    $url = \Drupal\Core\Url::fromUri($path);
+    $link = \Drupal\Core\Link::fromTextAndUrl($text, $url)->toRenderable();
+    $link['#attributes']['class'] = ['btn', $btnClass];
+
+    return [
+      '#type' => 'container',
+      '#attributes' => ['class' => [$containerClass]],
+      'link' => $link,
+    ];
   }
 
 
@@ -59,5 +59,10 @@ final class BloqueLoginOutDeMoneylinkBlock extends BlockBase
   public function getCacheMaxAge(): int
   {
     return 0;
+  }
+
+  public function getCacheContexts(): array
+  {
+    return ['user'];
   }
 }

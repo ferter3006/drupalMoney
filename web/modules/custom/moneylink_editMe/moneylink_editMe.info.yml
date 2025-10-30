@@ -1,0 +1,8 @@
+name: MoneyLink Edit Me
+type: module
+description: 'Provides user profile editing functionality for MoneyLink'
+package: Custom
+core_version_requirement: ^10 || ^11
+dependencies:
+  - moneylink_store
+  - moneylink_auth

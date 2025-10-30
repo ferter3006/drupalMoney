@@ -1,0 +1,5 @@
+moneylink_salas.tab:
+  route_name: moneylink_salas.content
+  title: 'Salas'
+  base_route: moneylink_userpanel
+  weight: 10

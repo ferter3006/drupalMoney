@@ -1,0 +1,5 @@
+name: 'moneylink_apiSalas'
+type: module
+description: 'api call para salas'
+package: MoneyLink
+core_version_requirement: ^10 || ^11

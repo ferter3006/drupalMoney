@@ -1,0 +1,19 @@
+<?php
+/**
+ * @file
+ * Primary module file for moneylink_perfil.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function moneylink_perfil_theme($existing, $type, $theme, $path) {
+  return [
+    'moneylink_perfil' => [
+      'variables' => [
+        'user_data' => NULL,
+      ],
+      'template' => 'moneylink-perfil',
+    ],
+  ];
+}

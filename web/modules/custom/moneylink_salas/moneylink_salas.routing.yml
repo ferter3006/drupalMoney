@@ -1,0 +1,15 @@
+moneylink_salas.content:
+  path: '/ml/userpanel/salas'
+  defaults:
+    _controller: '\Drupal\moneylink_salas\Controller\SalasController::salas_home'
+    _title: ''
+  requirements:
+    _permission: 'access content'
+
+moneylink_salas.show:
+  path: '/ml/userpanel/salas/{id}/{mes}'
+  defaults:
+    _controller: '\Drupal\moneylink_salas\Controller\SalasController::salas_show'
+    _title: ''
+  requirements:
+    _permission: 'access content'

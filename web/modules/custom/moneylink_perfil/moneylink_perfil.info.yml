@@ -1,0 +1,6 @@
+name: 'Moneylink Perfil'
+type: module
+description: 'Tab module: Perfil for Moneylink userpanel.'
+package: 'Moneylink'
+core_version_requirement: ^10 || ^11
+version: '1.0'

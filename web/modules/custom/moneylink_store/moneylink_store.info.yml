@@ -1,0 +1,5 @@
+name: 'Moneylink Store'
+type: module
+description: 'Gestiona el almacenamiento temporal de datos de Moneylink'
+package: 'Moneylink'
+core_version_requirement: ^10 || ^11

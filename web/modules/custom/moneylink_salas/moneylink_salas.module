@@ -1,0 +1,46 @@
+<?php
+
+/**
+ * @file
+ * Primary module file for moneylink_salas.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function moneylink_salas_theme($existing, $type, $theme, $path)
+{
+  return [
+    'moneylink_salas' => [
+      'variables' => [
+        'message' => NULL,
+        'salas' => NULL,
+        'attached_library' => ['moneylink_salas/salas'],
+      ],
+      'template' => 'moneylink-salas',
+    ],
+    'moneylink_showsala' => [
+      'variables' => [
+        'message' => NULL,
+        'sala_data' => NULL,
+        'id' => NULL,
+        'mes' => NULL,
+      ],
+    ],
+
+  ];
+}
+
+/**
+ * Prepares variables for moneylink-showsala.html.twig template.
+ *
+ * Default template: moneylink-showsala.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - foo: Foo variable description.
+ */
+function template_preprocess_moneylink_showsala(array &$variables): void
+{
+  $variables['foo'] = 'bar';
+}

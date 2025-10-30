@@ -1,0 +1,7 @@
+moneylink_adminpanel:
+  path: '/ml/adminpanel'
+  defaults:
+    _title: 'Moneylink Adminpanel'
+    _controller: '\Drupal\moneylink_adminpanel\Controller\MoneylinkAdminpanelController'
+  requirements:
+    _permission: 'access content'

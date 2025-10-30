@@ -1,0 +1,6 @@
+name: 'Moneylink Home'
+type: module
+description: 'Homepage controller and template for Moneylink site'
+package: 'Moneylink'
+core_version_requirement: ^10 || ^11
+version: '1.0'

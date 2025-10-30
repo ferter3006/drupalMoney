@@ -1,0 +1,101 @@
+{#
+  /**
+  * @file
+  * Default theme implementation to display moneylink_showsala.
+  *
+  * Available variables:
+  * - foo: Foo variable description.
+  *
+  * @see template_preprocess_moneylink_showsala()
+  *
+  * @ingroup themeable
+  */
+#}
+<div class="wrapper-class">
+
+  {# --- Línea 1: Botón Back a ancho completo --- #}
+  <div class="nav-back">
+    <a href="{{ url('moneylink_salas.content') }}" class="button button--secondary" title="Volver al panel de salas">
+      ← Back
+    </a>
+  </div>
+
+  {# --- Línea 2: Navegación mensual equidistante --- #}
+  <div class="nav-month" style="display:flex; justify-content:space-between; align-items:center;">
+    {# Botón mes anterior #}
+    <a href="{{ url('moneylink_salas.show', {'id': id, 'mes': mes - 1}) }}" class="button button--primary" title="Mes anterior">
+      ←
+    </a>
+
+    {# Texto central: mes - año #}
+    <span class="sala-date">    
+      <strong>
+        {{ sala_data.mes }}
+        -
+        {{ sala_data.año }}        
+      </strong>
+    </span>
+
+    {# Botón mes siguiente #}
+    <a href="{{ url('moneylink_salas.show', {'id': id, 'mes': mes + 1}) }}" class="button button--primary" title="Mes siguiente">
+      →
+    </a>
+  </div>
+
+  {# --- Balance --- #}
+  <div class="sala-balance" style="margin:12px 0; padding:12px; border:1px solid #ccc; border-radius:6px; background-color:#f9f9f9;">
+    <h3>
+      Balance del mes
+    </h3>
+    <div style="font-size:1.5em; font-weight:bold;
+      color: {{ sala_data.sala.balance >= 0 ? 'green' : 'red' }};">
+      {{ sala_data.sala.balance >= 0 ? '+' : '' }}
+      {{ sala_data.sala.balance|number_format(2, '.', ',') }}
+    </div>
+  </div>
+  {# --- Lista de tiquets --- #}
+  <div class="sala-tiquets">
+    <h3>
+      Tiquets
+    </h3>
+
+    {% for tiquet in sala_data.sala.tiquets %}
+      <div class="card" style="border:1px solid #ccc; border-radius:6px; padding:12px; margin-bottom:12px;">
+
+        {# ID y usuario #}
+        <div>
+          <strong>
+            Tiquet #
+            {{ tiquet.id }}
+          </strong>
+          -
+          {{ tiquet.user_name }}
+        </div>
+
+        {# Categoría #}
+        <div>
+          <em>
+            {{ tiquet.category_name }}
+          </em>
+        </div>
+
+        {# Descripción en letra más pequeña #}
+        <div style="font-size:0.9em; color:#555; margin:6px 0;">
+          {{ tiquet.description }}
+        </div>
+
+        {# Cantidad en verde o rojo según tipo de movimiento #}
+        <div style="font-weight:bold; font-size:1.1em;
+          color: {{ tiquet.es_ingreso ? 'green' : 'red' }};">
+          {{ tiquet.es_ingreso ? '+' : '-' }}
+          {{ tiquet.amount|number_format(2, '.', ',') }}
+        </div>
+      </div>
+    {% else %}
+      <p>
+        No hay tiquets disponibles.
+      </p>
+    {% endfor %}
+  </div>
+
+</div>

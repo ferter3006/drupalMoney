@@ -1,0 +1,7 @@
+moneylink_userpanel:
+  path: '/ml/userpanel'
+  defaults:
+    _title: ''
+    _controller: '\Drupal\moneylink_userpanel\Controller\MoneylinkUserpanelController'
+  requirements:
+    _permission: 'access content'

@@ -2,5 +2,5 @@ services:
   moneylink_auth:
     class: Drupal\moneylink_auth\MoneyLinkAuthService
     arguments:
-      - '@http_client'            # cliente HTTP de Guzzle
-      - '@tempstore.private'      # tempstore
+      - '@http_client'
+      - '@moneylink_store.service'

@@ -89,16 +89,15 @@ class LoginForm extends FormBase
      */
     private function sendLoginRequest(string $email, string $password, FormStateInterface $form_state): void
     {
-        $result = $this->authService->login($email, $password);
-        $this->messenger()->addStatus('Resultado: ' . print_r($result, TRUE));
+        $result = $this->authService->login($email, $password);        
 
         // Redirect based on user role
         if (!empty($result['user']['role']) && $result['user']['role'] === 'admin') {
             // Redirect to admin panel
-            $form_state->setRedirect('system.admin');
+            $form_state->setRedirect('moneylink_adminpanel');
         } else {
             // Redirect to user panel
-            $form_state->setRedirect('user.page');
+            $form_state->setRedirect('moneylink_userpanel');
         }
     }
 

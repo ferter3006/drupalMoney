@@ -1,0 +1,19 @@
+<?php
+/**
+ * @file
+ * Primary module hooks for Moneylink Home module.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function moneylink_home_theme($existing, $type, $theme, $path) {
+  return [
+    'moneylink_home' => [
+      'variables' => [
+        'message' => NULL,
+      ],
+      'template' => 'moneylink-home',
+    ],
+  ];
+}

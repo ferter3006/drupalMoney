@@ -7,6 +7,7 @@ namespace Drupal\moneylink_logout\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\moneylink_auth\MoneyLinkAuthService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Returns responses for Moneylink logout routes.
@@ -28,31 +29,21 @@ final class MoneylinkLogoutController extends ControllerBase
     );
   }
 
-
-
   /**
    * Builds the response.
    */
-  public function __invoke(): array
+  public function __invoke(): RedirectResponse
   {
-
     $response = $this->authService->logout();
 
-    $template_message = '';
     if (!empty($response['status']) && $response['status'] == 1) {
       $this->messenger()->addStatus($this->t('You have been logged out successfully.'));
-      $template_message = $this->t('You have been logged out successfully.');
     } else {
       $message = $response['message'] ?? $this->t('An unknown error occurred during logout.');
       $this->messenger()->addError($this->t('Logout failed: @message', ['@message' => $message]));
-      $token = \Drupal::service('tempstore.private')->get('ml_state')->get('auth_token');
-      $this->messenger()->addError('otra cosa: ' . $token);
-      $template_message = $this->t('Logout failed: @message', ['@message' => $message]);
     }
 
-    return [
-      '#theme' => 'logouttemplate',
-      '#foo' => $template_message,
-    ];
+    // Redirigir a home después del logout
+    return new RedirectResponse('/home');
   }
 }

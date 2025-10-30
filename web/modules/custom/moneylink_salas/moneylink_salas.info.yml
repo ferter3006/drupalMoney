@@ -1,0 +1,8 @@
+name: 'Moneylink Salas'
+type: module
+description: 'Tab module: Salas for Moneylink userpanel.'
+package: 'Moneylink'
+core_version_requirement: ^10 || ^11
+version: '1.0'
+dependencies:
+  - drupal:system

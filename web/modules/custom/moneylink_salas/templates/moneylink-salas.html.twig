@@ -1,0 +1,30 @@
+<div class="moneylink-salas">
+  <h2>
+    {{ message }}
+  </h2>
+
+  <div class="salas-user-info">
+    <div class="user-field">
+
+      {% for key, sala in salas %}
+        <a href="{{ url('moneylink_salas.show', {'id': sala.id, 'mes': 0}) }}" class="sala-card" style="display:block; border:1px solid #ccc; border-radius:6px; padding:12px; margin-bottom:12px; text-decoration:none; color:inherit;">
+
+          <h3>
+            Sala [
+            {{ sala.id }}
+            ]:
+            {{ sala.name }}
+          </h3>
+
+        {# Aquí puedes agregar más información de la sala si quieres #}
+
+        </a>
+      {% else %}
+        <p>
+          No hay salas disponibles.
+        </p>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>

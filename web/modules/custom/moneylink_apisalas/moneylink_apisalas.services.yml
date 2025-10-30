@@ -1,0 +1,6 @@
+services:
+  moneylink_apisalas.service:
+    class: Drupal\moneylink_apisalas\MoneyLinkApiSalasService
+    arguments: 
+      - '@http_client'
+      - '@moneylink_store.service'

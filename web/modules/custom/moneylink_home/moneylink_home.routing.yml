@@ -1,0 +1,7 @@
+moneylink_home.front:
+  path: '/home'
+  defaults:
+    _controller: '\Drupal\moneylink_home\Controller\HomeController::content'
+    _title: ''
+  requirements:
+    _permission: 'access content'

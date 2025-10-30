@@ -1,0 +1,4 @@
+services:
+  moneylink_store.service:
+    class: Drupal\moneylink_store\MoneyLinkStoreService
+    arguments: ['@tempstore.private']

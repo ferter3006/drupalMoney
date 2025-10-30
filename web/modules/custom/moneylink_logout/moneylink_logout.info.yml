@@ -1,5 +1,5 @@
 name: 'moneylink_logout'
 type: module
 description: 'logotu de moneylink'
-package: moneylink_logout
+package: 'Moneylink'
 core_version_requirement: ^10 || ^11

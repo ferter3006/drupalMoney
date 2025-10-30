@@ -1,0 +1,5 @@
+moneylink_userpanel.home:
+  route_name: moneylink_userpanel
+  title: 'Inicio'
+  base_route: moneylink_userpanel
+  weight: -10
