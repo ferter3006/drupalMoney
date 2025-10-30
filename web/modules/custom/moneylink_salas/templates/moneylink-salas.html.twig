@@ -6,7 +6,7 @@
   <div class="salas-user-info">
     <div class="user-field">
 
-      {% for key, sala in salas %}
+      {% for sala in salas %}
         <a href="{{ url('moneylink_salas.show', {'id': sala.id, 'mes': 0}) }}" class="sala-card" style="display:block; border:1px solid #ccc; border-radius:6px; padding:12px; margin-bottom:12px; text-decoration:none; color:inherit;">
 
           <h3>
@@ -24,6 +24,12 @@
           No hay salas disponibles.
         </p>
       {% endfor %}
+
+      <div style="margin-top:20px;">
+        <a href="{{ url('moneylink_salas.create') }}" class="button">
+          Crear nueva sala
+        </a>
+      </div>
 
     </div>
   </div>

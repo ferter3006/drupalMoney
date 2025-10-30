@@ -13,3 +13,11 @@ moneylink_salas.show:
     _title: ''
   requirements:
     _permission: 'access content'
+
+moneylink_salas.create:
+  path: '/ml/userpanel/salas/create'
+  defaults:
+    _form: '\Drupal\moneylink_salas\Form\CreateSalaForm'
+    _title: 'Crear nueva sala'
+  requirements:
+    _permission: 'access content'
