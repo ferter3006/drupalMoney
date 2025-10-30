@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\moneylink_auth;
 
 use Drupal\moneylink_store\MoneyLinkStoreService;
+use Drupal\user\Entity\User;
 use GuzzleHttp\Client;
 
 /**
@@ -45,6 +46,9 @@ final class MoneyLinkAuthService
       // Guardar datos usando el servicio de store
       $this->storeService->setUserData($data['user']);
       $this->storeService->setAuthToken($data['token']);
+      
+      // Sincronizar usuario con Drupal y loguear
+      $this->syncAndLoginDrupalUser($data['user'], $data['token']);
     }
 
     return $data;
@@ -59,7 +63,13 @@ final class MoneyLinkAuthService
   public function logout(): array
   {
     $token = $this->storeService->getAuthToken();
-    // Borramos datos del usuario
+    
+    // Cerrar sesión de Drupal
+    if (function_exists('user_logout')) {
+      user_logout();
+    }
+    
+    // Borramos datos del usuario del store
     $this->storeService->clearUserData();
 
     try {
@@ -140,5 +150,69 @@ final class MoneyLinkAuthService
       // Capturamos cualquier otro error inesperado.
       return ['status' => 0, 'message' => 'An unexpected error occurred: ' . $e->getMessage()];
     }
+  }
+
+  /**
+   * Sincroniza usuario de API con Drupal y loguea al usuario.
+   * 
+   * @param array $userData
+   *   Datos del usuario desde la API.
+   * @param string $token
+   *   Token de autenticación de la API.
+   */
+  private function syncAndLoginDrupalUser(array $userData, string $token): void
+  {
+    $email = $userData['email'] ?? null;
+    $name = $userData['name'] ?? null;
+    $external_id = $userData['id'] ?? null;
+
+    if (!$email || !$external_id) {
+      // Sin email o ID no podemos sincronizar
+      return;
+    }
+
+    // Buscar usuario por email
+    $users = \Drupal::entityTypeManager()
+      ->getStorage('user')
+      ->loadByProperties(['mail' => $email]);
+
+    if (empty($users)) {
+      // Usuario no existe en Drupal - crear nuevo
+      try {
+        $user = User::create([
+          'name' => $email, // Username = email
+          'mail' => $email,
+          'status' => 1, // Activo
+          'init' => $email,
+        ]);
+        
+        // Guardar sin validar contraseña (no tiene contraseña en Drupal)
+        $user->enforceIsNew();
+        $user->save();
+        
+        \Drupal::logger('moneylink_auth')->notice('Created Drupal user for @email (external ID: @id)', [
+          '@email' => $email,
+          '@id' => $external_id,
+        ]);
+      } catch (\Exception $e) {
+        \Drupal::logger('moneylink_auth')->error('Failed to create Drupal user: @message', [
+          '@message' => $e->getMessage(),
+        ]);
+        return;
+      }
+    } else {
+      // Usuario ya existe
+      $user = reset($users);
+    }
+
+    // Loguear usuario en Drupal (sesión nativa)
+    // user_login_finalize() es una función global de Drupal
+    if (function_exists('user_login_finalize')) {
+      user_login_finalize($user);
+    }
+    
+    \Drupal::logger('moneylink_auth')->info('User @email logged in via API authentication', [
+      '@email' => $email,
+    ]);
   }
 }
