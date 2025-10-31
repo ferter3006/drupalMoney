@@ -1,0 +1,8 @@
+moneylink_tiquets.create:
+  path: '/ml/salas/{sala_id}/create-tiquet'
+  defaults:
+    _title: 'Crear Tiquet'
+    _form: '\Drupal\moneylink_apitiquets\Form\CreateTiquetForm'
+  requirements:
+    _moneylink_auth: 'TRUE'
+    sala_id: \d+

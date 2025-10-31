@@ -1,0 +1,8 @@
+name: MoneyLink API Tiquets
+type: module
+description: Servicio para gestionar tiquets a través de la API de MoneyLink
+core_version_requirement: ^10 || ^11
+package: MoneyLink
+dependencies:
+  - moneylink_store
+  - moneylink_apicategorias

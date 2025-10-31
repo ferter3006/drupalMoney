@@ -13,3 +13,11 @@ menu_spacing:
       css/menu-spacing.css: {}
   dependencies:
     - core/drupal
+
+moneylink_pages:
+  version: 1.x
+  css:
+    theme:
+      css/moneylink-pages.css: {}
+  dependencies:
+    - core/drupal

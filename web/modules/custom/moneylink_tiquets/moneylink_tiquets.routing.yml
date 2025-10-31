@@ -1,0 +1,25 @@
+moneylink_tiquets.create:
+  path: '/ml/salas/{sala_id}/{mes}/create-tiquet'
+  defaults:
+    _title: 'Crear Tiquet'
+    _form: '\Drupal\moneylink_tiquets\Form\CreateTiquetForm'
+  requirements:
+    _moneylink_auth: 'TRUE'
+    sala_id: \d+
+
+moneylink_tiquets.list:
+  path: '/ml/tiquets'
+  defaults:
+    _title: 'Mis Tiquets'
+    _controller: '\Drupal\moneylink_tiquets\Controller\TiquetsController::listTiquets'
+  requirements:
+    _moneylink_auth: 'TRUE'
+
+moneylink_tiquets.view:
+  path: '/ml/tiquets/{tiquet_id}'
+  defaults:
+    _title: 'Ver Tiquet'
+    _controller: '\Drupal\moneylink_tiquets\Controller\TiquetsController::viewTiquet'
+  requirements:
+    _moneylink_auth: 'TRUE'
+    tiquet_id: \d+

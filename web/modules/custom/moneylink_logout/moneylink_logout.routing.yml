@@ -4,4 +4,4 @@ moneylink_logout:
     _title: 'Cerrar Sesión'
     _controller: '\Drupal\moneylink_logout\Controller\MoneylinkLogoutController'
   requirements:
-    _permission: 'access content'
+    _access: 'TRUE'

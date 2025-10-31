@@ -1,0 +1,11 @@
+name: MoneyLink Tiquets
+type: module
+description: 'Módulo para gestionar la visualización y creación de tickets de MoneyLink'
+core_version_requirement: ^10 || ^11
+package: MoneyLink
+dependencies:
+  - drupal:system
+  - moneylink_auth
+  - moneylink_store
+  - moneylink_apitiquets
+  - moneylink_apicategorias

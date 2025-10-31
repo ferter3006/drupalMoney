@@ -1,0 +1,84 @@
+{#
+/**
+ * @file
+ * Template para el formulario de creación de tickets.
+ *
+ * Variables disponibles:
+ * - form: El formulario completo
+ * - elements: Los elementos del formulario
+ */
+#}
+
+<div
+	class="moneylink-create-tiquet-form">
+	{# Hero section similar al panel de usuario #}
+	<div class="hero-section">
+		<h1>
+			🎫 Crear Nuevo Tiquet
+		</h1>
+		<p>
+			Registra un nuevo movimiento financiero en tu sala: {{ form.sala_name }}
+		</p>
+	</div>
+
+	<div
+		class="form-container">
+		{# Tarjeta principal del formulario #}
+		<div class="form-card">
+
+			<div class="form-section category-section">
+				<div class="form-group">
+					{{ form.category_id }}
+				</div>
+			</div>
+
+			<div class="form-section movement-section">
+				<div class="form-group">
+					<h3 class="movement-title">Selecciona el tipo de movimiento {{ form.mes }}</h3>
+					{{ form.es_ingreso }}
+				</div>
+			</div>
+
+			<div class="form-section amount-section">
+				<div class="form-group">
+					{{ form.amount }}
+				</div>
+			</div>
+
+			<div class="form-section description-section">
+				<div class="form-group">
+					{{ form.description }}
+				</div>
+			</div>
+
+			<div class="form-actions">			
+				{{ form.actions }}
+			</div>
+		</div>
+
+		{# Tips section similar al panel de usuario #}
+		<div class="tips-section">
+			<h3>
+				💡
+				<span>Consejos para crear tiquets</span>
+			</h3>
+			<ul>
+				<li>
+					<strong>Sé específico:</strong>
+					Describe claramente el motivo del movimiento</li>
+				<li>
+					<strong>Categoriza bien:</strong>
+					Elige la categoría más apropiada para mejor organización</li>
+				<li>
+					<strong>Revisa antes de enviar:</strong>
+					Verifica que la cantidad y el tipo sean correctos</li>
+			</ul>
+		</div>
+	</div>
+
+	{# Campos ocultos #}
+	{{ form.sala_id }}
+	{{ form.form_build_id }}
+	{{ form.form_token }}
+	{{ form.form_id }}
+</div>

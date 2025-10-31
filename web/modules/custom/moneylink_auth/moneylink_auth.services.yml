@@ -4,3 +4,10 @@ services:
     arguments:
       - '@http_client'
       - '@moneylink_store.service'
+  
+  moneylink_auth.access_check:
+    class: Drupal\moneylink_auth\Access\MoneyLinkAuthAccessCheck
+    arguments:
+      - '@moneylink_store.service'
+    tags:
+      - { name: access_check, applies_to: _moneylink_auth }

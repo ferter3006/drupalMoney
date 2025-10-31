@@ -1,0 +1,23 @@
+create_form:
+  css:
+    theme:
+      css/create-form.css: {}
+  js:
+    js/create-form.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+
+global:
+  css:
+    theme:
+      css/hide-titles.css: {}
+  dependencies:
+    - core/drupal
+
+global_layout:
+  css:
+    theme:
+      css/global-layout.css: {}
+  dependencies:
+    - core/drupal

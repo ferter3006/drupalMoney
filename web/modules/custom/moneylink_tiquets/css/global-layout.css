@@ -1,0 +1,63 @@
+/**
+ * CSS global para MoneyLink - Sobrescribir limitaciones del tema Olivero
+ */
+
+/* Sobrescribir la variable max-width del tema Olivero en páginas MoneyLink */
+body[class*="path-ml"],
+body[class*="path-moneylink"] {
+  --max-width: none !important;
+  --max-bg-color: none !important;
+}
+
+/* Asegurar que el container de Olivero use todo el ancho en MoneyLink */
+body[class*="path-ml"] .container,
+body[class*="path-moneylink"] .container {
+  max-width: none !important;
+  width: 100% !important;
+}
+
+/* También el page-wrapper */
+body[class*="path-ml"] .page-wrapper,
+body[class*="path-moneylink"] .page-wrapper {
+  max-width: none !important;
+  width: 100% !important;
+}
+
+/* Contenido específico de MoneyLink */
+.moneylink-userpanel,
+.moneylink-showsala,
+.moneylink-create-tiquet-form,
+.moneylink-perfil {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Contenedores internos */
+.moneylink-userpanel__content,
+.moneylink-showsala__content {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Grids y secciones */
+.actions-section,
+.summary-section,
+.form-container {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ajustar para móviles */
+@media (max-width: 768px) {
+  .moneylink-userpanel,
+  .moneylink-showsala,
+  .moneylink-create-tiquet-form,
+  .moneylink-perfil {
+    padding: 10px;
+    margin: 0 10px;
+  }
+}

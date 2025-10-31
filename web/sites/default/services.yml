@@ -1,0 +1,29 @@
+parameters:
+  session.storage.options:
+    # Configuración extendida de sesiones para MoneyLink
+    
+    # Configuración de garbage collection
+    gc_probability: 1
+    gc_divisor: 100
+    
+    # Session lifetime (en segundos) - Tiempo de vida de la sesión
+    # 604800 = 7 días (7 * 24 * 60 * 60)
+    # 1209600 = 14 días (14 * 24 * 60 * 60)
+    # 2592000 = 30 días (30 * 24 * 60 * 60)
+    gc_maxlifetime: 2592000
+    
+    # Cookie lifetime (en segundos) - Tiempo de vida de la cookie
+    # 0 = hasta que se cierre el navegador
+    # 2592000 = 30 días
+    # 7776000 = 90 días (3 meses)
+    cookie_lifetime: 7776000
+    
+    # Configuración de cookies para seguridad
+    cookie_samesite: Lax
+    cookie_secure: false  # Cambiar a true si usas HTTPS en producción
+    cookie_httponly: true
+    
+    # Configuraciones adicionales para estabilidad
+    use_cookies: true
+    use_only_cookies: true
+    use_strict_mode: true

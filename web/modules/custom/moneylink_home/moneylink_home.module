@@ -5,6 +5,29 @@
  */
 
 /**
+ * Implements hook_preprocess_html().
+ */
+function moneylink_home_preprocess_html(&$variables) {
+  $route_match = \Drupal::routeMatch();
+  $route_name = $route_match->getRouteName();
+  
+  // Si estamos en la página de inicio de MoneyLink
+  if ($route_name === 'moneylink_home.front') {
+    // Remover la clase path-frontpage
+    if (isset($variables['attributes']['class'])) {
+      $classes = $variables['attributes']['class'];
+      $classes = array_diff($classes, ['path-frontpage']);
+      
+      // Agregar las clases que queremos (como las otras páginas ML)
+      $classes[] = 'path-ml';
+      $classes[] = 'path-ml-home';
+      
+      $variables['attributes']['class'] = $classes;
+    }
+  }
+}
+
+/**
  * Implements hook_theme().
  */
 function moneylink_home_theme($existing, $type, $theme, $path) {

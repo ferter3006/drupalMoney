@@ -4,4 +4,4 @@ moneylink_adminpanel:
     _title: 'Moneylink Adminpanel'
     _controller: '\Drupal\moneylink_adminpanel\Controller\MoneylinkAdminpanelController'
   requirements:
-    _permission: 'access content'
+    _moneylink_auth: 'TRUE'

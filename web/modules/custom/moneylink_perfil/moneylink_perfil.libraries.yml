@@ -1,0 +1,6 @@
+edit_forms:
+  css:
+    theme:
+      css/edit-forms.css: {}
+  dependencies:
+    - core/drupal

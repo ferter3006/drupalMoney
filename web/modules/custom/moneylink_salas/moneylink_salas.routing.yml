@@ -4,15 +4,15 @@ moneylink_salas.content:
     _controller: '\Drupal\moneylink_salas\Controller\SalasController::salas_home'
     _title: 'Mis Salas'
   requirements:
-    _permission: 'access content'
+    _moneylink_auth: 'TRUE'
 
 moneylink_salas.show:
   path: '/ml/salas/{id}/{mes}'
   defaults:
     _controller: '\Drupal\moneylink_salas\Controller\SalasController::salas_show'
-    _title: 'Detalle de Sala'
+    _title_callback: '\Drupal\moneylink_salas\Controller\SalasController::getSalaTitle'
   requirements:
-    _permission: 'access content'
+    _moneylink_auth: 'TRUE'
 
 moneylink_salas.create:
   path: '/ml/salas/create'
@@ -20,4 +20,20 @@ moneylink_salas.create:
     _form: '\Drupal\moneylink_salas\Form\CreateSalaForm'
     _title: 'Crear Nueva Sala'
   requirements:
-    _permission: 'access content'
+    _moneylink_auth: 'TRUE'
+
+moneylink_salas.delete:
+  path: '/ml/salas/{id}/delete'
+  defaults:
+    _controller: '\Drupal\moneylink_salas\Controller\SalasController::deleteSala'
+    _title: 'Eliminar Sala'
+  requirements:
+    _moneylink_auth: 'TRUE'
+
+moneylink_salas.edit:
+  path: '/ml/salas/{id}/edit'
+  defaults:
+    _form: '\Drupal\moneylink_salas\Form\EditSalaForm'
+    _title: 'Editar Sala'
+  requirements:
+    _moneylink_auth: 'TRUE'

@@ -1,0 +1,25 @@
+/* Ocultar títulos de página automáticos de Drupal en rutas de MoneyLink */
+
+/* Para las páginas de MoneyLink, ocultamos el título principal de página */
+body.path-moneylink .block-page-title-block h1.page-title,
+body.path-moneylink-salas .block-page-title-block h1.page-title,
+body.path-moneylink-perfil .block-page-title-block h1.page-title,
+body.path-moneylink-userpanel .block-page-title-block h1.page-title,
+body.path-moneylink-adminpanel .block-page-title-block h1.page-title {
+  display: none !important;
+}
+
+/* Alternativa más específica si las clases path no funcionan */
+.block-page-title-block h1.page-title {
+  display: none !important;
+}
+
+/* En las rutas de salas específicas también */
+body[class*="path-moneylink"] .block-page-title-block h1.page-title {
+  display: none !important;
+}
+
+/* Si hay contenido en el region-title, también lo ocultamos para MoneyLink */
+body[class*="path-moneylink"] .region-title {
+  display: none !important;
+}

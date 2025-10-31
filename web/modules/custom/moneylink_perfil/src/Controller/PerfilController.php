@@ -42,6 +42,11 @@ final class PerfilController extends ControllerBase
       '#theme' => 'moneylink_perfil',
       '#user_data' => $userData,
       '#cache' => ['max-age' => 0],
+      '#attached' => [
+        'library' => [
+          'moneylink_userpanel/moneylink_pages',
+        ],
+      ],
     ];
   }
 }

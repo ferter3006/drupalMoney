@@ -21,6 +21,8 @@ final class MoneylinkAdminpanelController extends ControllerBase {
       '#markup' => $this->t('It works!'),
     ];
 
+    $build['#attached']['library'][] = 'moneylink_userpanel/moneylink_pages';
+
     return $build;
   }
 

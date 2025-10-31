@@ -1,101 +1,281 @@
 {#
-  /**
-  * @file
-  * Default theme implementation to display moneylink_showsala.
-  *
-  * Available variables:
-  * - foo: Foo variable description.
-  *
-  * @see template_preprocess_moneylink_showsala()
-  *
-  * @ingroup themeable
-  */
+/**
+ * @file
+ * Template moderno para mostrar detalles de una sala de MoneyLink.
+ *
+ * Variables disponibles:
+ * - sala_data: Datos completos de la sala
+ * - id: ID de la sala
+ * - mes: Mes actual
+ */
 #}
-<div class="wrapper-class">
+<div class="moneylink-showsala">
+	<div
+		class="moneylink-showsala__content">
 
-  {# --- Línea 1: Botón Back a ancho completo --- #}
-  <div class="nav-back">
-    <a href="{{ url('moneylink_salas.content') }}" class="button button--secondary" title="Volver al panel de salas">
-      ← Back
-    </a>
-  </div>
+		{# Encabezado principal de la sala #}
+		<div class="hero-section" style="text-align: center; padding: 40px 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 12px; margin-bottom: 30px; position: relative;">
+			<h1 style="font-size: 2.5em; margin-bottom: 16px; font-weight: bold;">
+				🏠
+				{{ sala_data.sala.name|default('Sala') }}
+			</h1>
+			<p style="font-size: 1.2em; margin-bottom: 12px; opacity: 0.9;">
+				Gestión financiera -
+				{{ sala_data.mes|default('Mes') }}
+				{{ sala_data.año|default('2024') }}
+			</p>
+			<p style="font-size: 1em; opacity: 0.7;">
+				Sala ID:
+				{{ id }}
+			</p>
+		</div>
 
-  {# --- Línea 2: Navegación mensual equidistante --- #}
-  <div class="nav-month" style="display:flex; justify-content:space-between; align-items:center;">
-    {# Botón mes anterior #}
-    <a href="{{ url('moneylink_salas.show', {'id': id, 'mes': mes - 1}) }}" class="button button--primary" title="Mes anterior">
-      ←
-    </a>
+		{# Navegación superior #}
+		<div class="top-navigation" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; gap: 10px;">
+			<a href="{{ url('moneylink_salas.content') }}" class="button button--secondary" style="display: inline-flex; align-items: center; padding: 12px 20px; background: #718096; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; transition: all 0.2s;">
+				← Volver a Mis Salas
+			</a>
 
-    {# Texto central: mes - año #}
-    <span class="sala-date">    
-      <strong>
-        {{ sala_data.mes }}
-        -
-        {{ sala_data.año }}        
-      </strong>
-    </span>
+			<a href="{{ url('moneylink_salas.delete', {'id': id}) }}" class="button button--danger" style="display: inline-flex; align-items: center; padding: 12px 20px; background: #e53e3e; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; transition: all 0.2s;" onclick="return confirm('⚠️ ¿Estás seguro de que quieres eliminar esta sala permanentemente?\n\nEsta acción eliminará:\n• Todos los tiquets de la sala\n• Todo el historial financiero\n• Esta acción NO se puede deshacer\n\n¿Continuar?');">
+				🗑️ Eliminar Sala
+			</a>
+		</div>
 
-    {# Botón mes siguiente #}
-    <a href="{{ url('moneylink_salas.show', {'id': id, 'mes': mes + 1}) }}" class="button button--primary" title="Mes siguiente">
-      →
-    </a>
-  </div>
+		{# Navegación mensual mejorada #}
+		<div class="month-navigation" style="display: flex; justify-content: center; align-items: center; margin-bottom: 30px; background: #f7fafc; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0;">
 
-  {# --- Balance --- #}
-  <div class="sala-balance" style="margin:12px 0; padding:12px; border:1px solid #ccc; border-radius:6px; background-color:#f9f9f9;">
-    <h3>
-      Balance del mes
-    </h3>
-    <div style="font-size:1.5em; font-weight:bold;
-      color: {{ sala_data.sala.balance >= 0 ? 'green' : 'red' }};">
-      {{ sala_data.sala.balance >= 0 ? '+' : '' }}
-      {{ sala_data.sala.balance|number_format(2, '.', ',') }}
-    </div>
-  </div>
-  {# --- Lista de tiquets --- #}
-  <div class="sala-tiquets">
-    <h3>
-      Tiquets
-    </h3>
+			<a href="{{ url('moneylink_salas.show', {'id': id, 'mes': mes - 1}) }}" class="nav-button" style="display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: #4299e1; color: white; text-decoration: none; border-radius: 50%; font-weight: bold; font-size: 1.2em; transition: all 0.2s; margin-right: 30px;">
+				←
+			</a>
 
-    {% for tiquet in sala_data.sala.tiquets %}
-      <div class="card" style="border:1px solid #ccc; border-radius:6px; padding:12px; margin-bottom:12px;">
+			<div class="current-period" style="text-align: center; flex: 1; max-width: 200px;">
+				<div style="font-size: 1.8em; font-weight: bold; color: #2d3748; margin-bottom: 4px;">
+					{{ sala_data.mes|default('Mes') }}
+				</div>
+				<div style="font-size: 1.2em; color: #718096;">
+					{{ sala_data.año|default('2024') }}
+				</div>
+			</div>
 
-        {# ID y usuario #}
-        <div>
-          <strong>
-            Tiquet #
-            {{ tiquet.id }}
-          </strong>
-          -
-          {{ tiquet.user_name }}
-        </div>
+			<a href="{{ url('moneylink_salas.show', {'id': id, 'mes': mes + 1}) }}" class="nav-button" style="display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: #4299e1; color: white; text-decoration: none; border-radius: 50%; font-weight: bold; font-size: 1.2em; transition: all 0.2s; margin-left: 30px;">
+				→
+			</a>
+		</div>
 
-        {# Categoría #}
-        <div>
-          <em>
-            {{ tiquet.category_name }}
-          </em>
-        </div>
+		{# Balance destacado #}
+		<div class="balance-section" style="margin-bottom: 30px;">
+			<div class="balance-card" style="background: {{ sala_data.sala.balance >= 0 ? 'linear-gradient(135deg, #48bb78 0%, #38a169 100%)' : 'linear-gradient(135deg, #e53e3e 0%, #c53030 100%)' }}; color: white; border-radius: 12px; padding: 30px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+				<h3 style="margin-bottom: 12px; font-size: 1.2em; opacity: 0.9;">
+					💰 Balance del Mes
+				</h3>
+				<div style="font-size: 3em; font-weight: bold; margin-bottom: 8px;">
+					{{ sala_data.sala.balance >= 0 ? '+' : '' }}{{ sala_data.sala.balance|number_format(2, '.', ',') }}€
+				</div>
+				<p style="opacity: 0.8; margin: 0; font-size: 1em;">
+					{{ sala_data.sala.balance >= 0 ? '✅ Balance positivo' : '⚠️ Balance negativo' }}
+				</p>
+			</div>
+		</div>
 
-        {# Descripción en letra más pequeña #}
-        <div style="font-size:0.9em; color:#555; margin:6px 0;">
-          {{ tiquet.description }}
-        </div>
+		{# Sección de tiquets #}
+		<div class="tiquets-section">
+			<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+				<h3 style="color: #2d3748; font-size: 1.8em; margin: 0; display: flex; align-items: center;">
+					📋
+					<span style="margin-left: 10px;">Movimientos del Mes</span>
+				</h3>
 
-        {# Cantidad en verde o rojo según tipo de movimiento #}
-        <div style="font-weight:bold; font-size:1.1em;
-          color: {{ tiquet.es_ingreso ? 'green' : 'red' }};">
-          {{ tiquet.es_ingreso ? '+' : '-' }}
-          {{ tiquet.amount|number_format(2, '.', ',') }}
-        </div>
-      </div>
-    {% else %}
-      <p>
-        No hay tiquets disponibles.
-      </p>
-    {% endfor %}
-  </div>
+				<a href="{{ url('moneylink_tiquets.create', {'sala_id': id, 'mes': mes}) }}?sala_name={{ sala_data.sala.name|url_encode }}" class="button button--primary" style="padding: 10px 20px; background: #48bb78; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block;">
+					➕ Nuevo Tiquet
+				</a>
+			</div>
 
+			{% if sala_data.sala.tiquets is not empty %}
+				<div class="tiquets-grid" style="display: grid; gap: 16px;">
+
+					{% for tiquet in sala_data.sala.tiquets %}
+						<div
+							class="tiquet-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 4px solid {{ tiquet.es_ingreso ? '#48bb78' : '#e53e3e' }};">
+
+							{# Header del tiquet #}
+							<div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+								<div>
+									<h4 style="margin: 0 0 4px 0; color: #2d3748; font-size: 1.1em; font-weight: bold;">
+										🎫 Tiquet #{{ tiquet.id }}
+									</h4>
+									<p style="margin: 0; color: #718096; font-size: 0.9em;">
+										👤
+										{{ tiquet.user_name }}
+									</p>
+								</div>
+								<div class="amount" style="text-align: right;">
+									<div style="font-size: 1.5em; font-weight: bold; color: {{ tiquet.es_ingreso ? '#48bb78' : '#e53e3e' }};">
+										{{ tiquet.es_ingreso ? '+' : '-' }}{{ tiquet.amount|number_format(2, '.', ',') }}€
+									</div>
+									<div style="font-size: 0.8em; color: #718096; margin-top: 2px;">
+										{{ tiquet.es_ingreso ? 'Ingreso' : 'Gasto' }}
+									</div>
+								</div>
+							</div>
+
+							{# Categoría #}
+							<div style="display: inline-block; background: #f7fafc; color: #4a5568; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; font-weight: bold; margin-bottom: 12px;">
+								🏷️
+								{{ tiquet.category_name }}
+							</div>
+
+							{# Descripción #}
+							{% if tiquet.description %}
+								<div style="background: #f8f9fa; border-radius: 6px; padding: 12px; margin-top: 8px;">
+									<p style="margin: 0; color: #4a5568; line-height: 1.5; font-size: 0.95em;">
+										💬
+										{{ tiquet.description }}
+									</p>
+								</div>
+							{% endif %}
+
+						</div>
+					{% endfor %}
+
+				</div>
+
+				{# Resumen de tiquets #}
+				<div class="tiquets-summary" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 30px;">
+
+					{% set total_ingresos = 0 %}
+					{% set total_gastos = 0 %}
+					{% set total_tiquets = sala_data.sala.tiquets|length %}
+
+					{% for tiquet in sala_data.sala.tiquets %}
+						{% if tiquet.es_ingreso %}
+							{% set total_ingresos = total_ingresos + tiquet.amount %}
+						{% else %}
+							{% set total_gastos = total_gastos + tiquet.amount %}
+						{% endif %}
+					{% endfor %}
+
+					<div class="summary-card" style="padding: 20px; background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; border-radius: 8px; text-align: center;">
+						<h4 style="margin-bottom: 8px; font-size: 0.9em; opacity: 0.9;">Total Ingresos</h4>
+						<p style="font-size: 1.8em; font-weight: bold; margin: 0;">+{{ total_ingresos|number_format(2, '.', ',') }}€</p>
+					</div>
+
+					<div class="summary-card" style="padding: 20px; background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%); color: white; border-radius: 8px; text-align: center;">
+						<h4 style="margin-bottom: 8px; font-size: 0.9em; opacity: 0.9;">Total Gastos</h4>
+						<p style="font-size: 1.8em; font-weight: bold; margin: 0;">-{{ total_gastos|number_format(2, '.', ',') }}€</p>
+					</div>
+
+					<div class="summary-card" style="padding: 20px; background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%); color: white; border-radius: 8px; text-align: center;">
+						<h4 style="margin-bottom: 8px; font-size: 0.9em; opacity: 0.9;">Total Tiquets</h4>
+						<p style="font-size: 1.8em; font-weight: bold; margin: 0;">{{ total_tiquets }}</p>
+					</div>
+				</div>
+
+			{% else %}
+				{# Estado vacío cuando no hay tiquets #}
+				<div class="empty-state" style="text-align: center; padding: 60px 20px; background: #f7fafc; border-radius: 12px; border: 2px dashed #e2e8f0;">
+					<div style="font-size: 4em; margin-bottom: 16px; opacity: 0.6;">📋</div>
+					<h3 style="color: #2d3748; margin-bottom: 12px; font-size: 1.5em;">No hay movimientos este mes</h3>
+					<p style="color: #4a5568; margin-bottom: 24px; max-width: 400px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+						Aún no se han registrado ingresos ni gastos para
+						{{ sala_data.mes|default('este mes') }}
+						{{ sala_data.año|default('') }}.
+					</p>
+					<button class="button button--primary" style="padding: 15px 30px; background: #48bb78; color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; transition: all 0.2s;" onclick="alert('Funcionalidad próximamente: Añadir primer tiquet')">
+						🎫 Crear Mi Primer Tiquet
+					</button>
+				</div>
+			{% endif %}
+
+		</div>
+
+	</div>
 </div>
+
+<style>
+	/* Efectos hover para botones de navegación */
+	.nav-button:hover {
+		transform: scale(1.1);
+		box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+	}
+
+	.button:hover {
+		transform: translateY(-2px);
+		opacity: 0.9;
+	}
+
+	/* Efectos hover para tarjetas de tiquets */
+	.tiquet-card:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+	}
+
+	.summary-card:hover {
+		transform: translateY(-2px);
+	}
+
+	/* Responsivo */
+	@media(max-width: 768px) {
+		.top-navigation {
+			flex-direction: column !important;
+			gap: 15px !important;
+		}
+
+		.month-navigation {
+			padding: 15px !important;
+		}
+
+		.month-navigation .nav-button {
+			width: 40px !important;
+			height: 40px !important;
+			margin: 0 15px !important;
+		}
+
+		.hero-section h1 {
+			font-size: 2em !important;
+		}
+
+		.balance-card div {
+			font-size: 2.5em !important;
+		}
+
+		.tiquets-summary {
+			grid-template-columns: 1fr !important;
+		}
+
+		.tiquet-card div:first-child {
+			flex-direction: column !important;
+			gap: 10px !important;
+		}
+	}
+
+	/* Animaciones */
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.tiquet-card {
+		animation: fadeInUp 0.5s ease-out;
+	}
+
+	/* Pulso sutil para el balance */
+	@keyframes pulse {
+		0,
+		100% {
+			transform: scale(1);
+		}
+		50% {
+			transform: scale(1.02);
+		}
+	}
+
+	.balance-card:hover {
+		animation: pulse 2s infinite;
+	}
+</style>

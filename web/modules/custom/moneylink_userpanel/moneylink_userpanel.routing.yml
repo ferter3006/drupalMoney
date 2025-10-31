@@ -4,4 +4,4 @@ moneylink_userpanel:
     _title: 'Panel de Usuario'
     _controller: '\Drupal\moneylink_userpanel\Controller\MoneylinkUserpanelController'
   requirements:
-    _permission: 'access content'
+    _moneylink_auth: 'TRUE'

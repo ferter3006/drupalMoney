@@ -4,4 +4,28 @@ moneylink_perfil.content:
     _controller: '\Drupal\moneylink_perfil\Controller\PerfilController'
     _title: 'Mi Perfil'
   requirements:
-    _permission: 'access content'
+    _moneylink_auth: 'TRUE'
+
+moneylink_perfil.edit_name:
+  path: '/ml/perfil/edit-name'
+  defaults:
+    _form: '\Drupal\moneylink_perfil\Form\EditNameForm'
+    _title: 'Cambiar Nombre'
+  requirements:
+    _moneylink_auth: 'TRUE'
+
+moneylink_perfil.edit_email:
+  path: '/ml/perfil/edit-email'
+  defaults:
+    _form: '\Drupal\moneylink_perfil\Form\EditEmailForm'
+    _title: 'Cambiar Email'
+  requirements:
+    _moneylink_auth: 'TRUE'
+
+moneylink_perfil.edit_password:
+  path: '/ml/perfil/edit-password'
+  defaults:
+    _form: '\Drupal\moneylink_perfil\Form\EditPasswordForm'
+    _title: 'Cambiar Contraseña'
+  requirements:
+    _moneylink_auth: 'TRUE'

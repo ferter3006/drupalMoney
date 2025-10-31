@@ -38,18 +38,17 @@ final class HomeController extends ControllerBase {
     $store = $this->tempStoreFactory->get('ml_state');
     $userData = $store->get('user_data');
     
-    // Si hay usuario logueado, redirigir según rol
-    if ($userData && isset($userData['role'])) {
-      return $userData['role'] === 'admin' 
-        ? new RedirectResponse('/ml/adminpanel')
-        : new RedirectResponse('/ml/userpanel');
-    }
-
-    // Si no hay usuario, mostrar página de inicio
+    // Siempre mostrar la página de inicio, independientemente del estado de login
     return [
       '#theme' => 'moneylink_home',
-      '#message' => $this->t('¡Hola mundo desde la página principal de Moneylink!'),
+      '#user_data' => $userData,
+      '#is_logged_in' => !empty($userData),
       '#cache' => ['max-age' => 0],
+      '#attached' => [
+        'library' => [
+          'moneylink_userpanel/moneylink_pages',
+        ],
+      ],
     ];
   }
 

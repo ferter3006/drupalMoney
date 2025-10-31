@@ -1,0 +1,32 @@
+/**
+ * CSS para ocultar títulos automáticos de Drupal en páginas de MoneyLink Tiquets
+ */
+
+/* Ocultar títulos de página automáticos para todas las rutas de moneylink_tiquets */
+body.path-moneylink-tiquets .block-page-title-block h1.page-title,
+body.path-moneylink-tiquets .title.page-title,
+body.path-moneylink-tiquets h1.title.page-title,
+.path-moneylink-tiquets .block-page-title-block h1.page-title,
+.path-moneylink-tiquets .title.page-title,
+.path-moneylink-tiquets h1.title.page-title {
+  display: none !important;
+}
+
+/* Específico para todas las rutas que empiecen con /ml/tiquets */
+body[class*="path-ml-tiquets"] .block-page-title-block h1.page-title,
+body[class*="path-ml-tiquets"] .title.page-title,
+body[class*="path-ml-tiquets"] h1.title.page-title {
+  display: none !important;
+}
+
+/* Alternativa más agresiva para asegurar que se oculten */
+[class*="path-ml-tiquets"] .region-title,
+[class*="path-ml-tiquets"] .block-page-title-block {
+  display: none !important;
+}
+
+/* Para formularios específicos */
+.path-ml-tiquets-create .title,
+.path-ml-tiquets-create .page-title {
+  display: none !important;
+}

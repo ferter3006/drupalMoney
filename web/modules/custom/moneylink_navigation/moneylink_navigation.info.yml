@@ -1,0 +1,7 @@
+name: 'MoneyLink Navigation'
+type: module
+description: 'Sistema de navegación principal para MoneyLink'
+core_version_requirement: ^10 || ^11
+package: MoneyLink
+dependencies:
+  - moneylink_store

@@ -78,6 +78,10 @@ class LoginForm extends FormBase
         try {
             $this->sendLoginRequest($email, $password, $form_state);
         } catch (\GuzzleHttp\Exception\ClientException $e) {
+            \Drupal::logger('moneylink_auth')->error('Login API error: @message', [
+                '@message' => $e->getMessage(),
+            ]);
+            
             $this->handleApiError($e);
         } catch (\Exception $e) {
             $this->handleGenericError($e);

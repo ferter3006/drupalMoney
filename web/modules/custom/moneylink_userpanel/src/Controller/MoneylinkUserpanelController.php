@@ -24,12 +24,16 @@ final class MoneylinkUserpanelController extends ControllerBase {
       throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('Please log in to access your panel.');
     }
 
-    $build['content'] = [
-      '#type' => 'item',
-      '#markup' => '<h1>' . $this->t('Hola mundo') . '</h1><p>' . $this->t('Bienvenido al panel de usuario, @name', ['@name' => $user_data['name'] ?? 'Usuario']) . '</p>',
+    return [
+      '#theme' => 'moneylink_userpanel',
+      '#user_data' => $user_data,
+      '#cache' => ['max-age' => 0],
+      '#attached' => [
+        'library' => [
+          'moneylink_userpanel/moneylink_pages',
+        ],
+      ],
     ];
-
-    return $build;
   }
 
 }

@@ -1,7 +1,7 @@
-moneylink_home.front:
-  path: '/home'
+moneylink_home.home:
+  path: '/ml/home'
   defaults:
     _controller: '\Drupal\moneylink_home\Controller\HomeController::content'
-    _title: ''
+    _title: 'MoneyLink - Inicio'
   requirements:
     _permission: 'access content'

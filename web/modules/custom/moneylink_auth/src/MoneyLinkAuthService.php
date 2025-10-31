@@ -65,18 +65,13 @@ final class MoneyLinkAuthService
   {
     $token = $this->storeService->getAuthToken();
     
-    // Primero borramos datos del usuario del store para evitar reutilización
-    $this->storeService->clearUserData();
-    
-    // Cerrar sesión de Drupal
-    \Drupal::service('session_manager')->destroy();
-
     // Si no hay token, consideramos que ya estaba deslogueado
     if (!$token) {
       return ['status' => 1, 'message' => 'Already logged out.'];
     }
 
     try {
+      // Primero intentar logout en la API
       $response = $this->httpClient->post('https://ioc.ferter.es/api/users/logout', [
         'headers' => [
           'Content-Type' => 'application/json',
@@ -86,21 +81,47 @@ final class MoneyLinkAuthService
       ]);
 
       $data = json_decode($response->getBody()->getContents(), true);
+      
+      // Solo si el logout API es exitoso, limpiar datos locales
+      if (!empty($data['status']) && $data['status'] == 1) {
+        $this->storeService->clearUserData();
+        \Drupal::service('session_manager')->destroy();
+        
+        \Drupal::logger('moneylink_auth')->info('User logout successful - API and local cleanup completed');
+      } else {
+        // Si API responde pero indica fallo, forzar logout local de todas formas
+        $this->storeService->clearUserData();
+        \Drupal::service('session_manager')->destroy();
+        
+        \Drupal::logger('moneylink_auth')->warning('API logout failed but forced local cleanup');
+      }
 
-      // Devolvemos los datos de la respuesta
       return $data;
     } catch (\GuzzleHttp\Exception\ClientException $e) {
-      // Si la API devuelve un error controlado, capturamos el mensaje
+      // Si la API devuelve un error controlado, forzar logout local
       $response = $e->getResponse();
       $body = $response ? $response->getBody()->getContents() : '';
       $data = json_decode($body, TRUE);
       $api_message = $data['message'] ?? 'Unknown API error during logout.';
 
-      // Aunque falle el logout de la API, ya limpiamos los datos locales
+      // Forzar logout local de todas formas
+      $this->storeService->clearUserData();
+      \Drupal::service('session_manager')->destroy();
+      
+      \Drupal::logger('moneylink_auth')->warning('API logout failed, forced local cleanup: @message', [
+        '@message' => $api_message
+      ]);
+
       return ['status' => 1, 'message' => 'Local logout successful. API logout failed: ' . $api_message];
     } catch (\Exception $e) {
-      // Si ocurre un error inesperado, devolvemos un mensaje genérico
-      // Pero mantenemos status 1 porque los datos locales ya se limpiaron
+      // Si ocurre un error inesperado, forzar logout local
+      $this->storeService->clearUserData();
+      \Drupal::service('session_manager')->destroy();
+      
+      \Drupal::logger('moneylink_auth')->error('Unexpected error during logout, forced local cleanup: @message', [
+        '@message' => $e->getMessage()
+      ]);
+
       return ['status' => 1, 'message' => 'Local logout successful. API logout error: ' . $e->getMessage()];
     }
   }
@@ -145,7 +166,23 @@ final class MoneyLinkAuthService
 
       return $data;
     } catch (\GuzzleHttp\Exception\ClientException $e) {
-      // Capturamos errores controlados de la API (ej. 4xx).
+      // Si es un error 401, limpiar token inválido y redirigir
+      if ($e->getResponse() && $e->getResponse()->getStatusCode() === 401) {
+        $this->storeService->clearUserData();
+        \Drupal::service('session_manager')->destroy();
+        
+        \Drupal::logger('moneylink_auth')->warning('API returned 401 during user update for user @uid', [
+          '@uid' => \Drupal::currentUser()->id(),
+        ]);
+        
+        return [
+          'status' => 0, 
+          'message' => 'Authentication expired. Please log in again.',
+          'redirect_to_logout' => true
+        ];
+      }
+      
+      // Capturamos otros errores controlados de la API (ej. 4xx).
       $response = $e->getResponse();
       $body = $response ? $response->getBody()->getContents() : '';
       $data = json_decode($body, TRUE);

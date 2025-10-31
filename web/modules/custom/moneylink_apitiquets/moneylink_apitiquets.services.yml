@@ -1,0 +1,4 @@
+services:
+  moneylink_apitiquets.service:
+    class: Drupal\moneylink_apitiquets\MoneyLinkApiTiquetsService
+    arguments: ['@http_client', '@moneylink_store.service']

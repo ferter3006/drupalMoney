@@ -1,0 +1,368 @@
+/**
+ * Estilos para el formulario de creación de tickets
+ * Adaptado al estilo del panel de usuario de MoneyLink
+ */
+
+.moneylink-create-tiquet-form {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Hero section igual al panel de usuario */
+.hero-section {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px;
+  margin-bottom: 30px;
+}
+
+.hero-section h1 {
+  font-size: 2.5em;
+  margin-bottom: 16px;
+  font-weight: bold;
+  margin: 0 0 16px 0;
+}
+
+.hero-section p {
+  font-size: 1.2em;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* Container principal */
+.form-container {
+  display: grid;
+  gap: 20px;
+}
+
+/* Tarjeta principal del formulario */
+.form-card {
+  padding: 30px;
+  border: 1px solid #e1e5e9;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Secciones del formulario */
+.form-section {
+  margin-bottom: 25px;
+}
+
+.form-group {
+  position: relative;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 14px;
+}
+
+/* Campos del formulario */
+.form-select,
+.form-number,
+.form-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  background: #f8f9fa;
+}
+
+.form-select:focus,
+.form-number:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  background: #fff;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+/* Título personalizado para tipo de movimiento */
+.movement-title {
+  color: #2d3748;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Radio buttons estilo tarjetas lado a lado */
+.movement-type-radios {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 15px;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.movement-type-radios .form-item {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 15px;
+  border: 2px solid #e1e5e9;
+  border-radius: 12px;
+  background: #fff;
+  transition: all 0.3s ease;
+  margin: 0 !important;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  min-height: 60px;
+}
+
+.movement-type-radios .form-item:hover {
+  border-color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
+}
+
+.movement-type-radios .form-item input[type="radio"] {
+  margin: 0 12px 0 0;
+  transform: scale(1.4);
+  accent-color: #667eea;
+}
+
+.movement-type-radios .form-item label {
+  margin: 0;
+  font-weight: 700;
+  cursor: pointer;
+  color: #4a5568;
+  font-size: 16px;
+  text-align: center;
+  flex: 1;
+}
+
+/* Radio button seleccionado */
+.movement-type-radios .form-item:has(input:checked) {
+  border-color: #667eea;
+  background: linear-gradient(135deg, #667eea15, #764ba215);
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.25);
+}
+
+.movement-type-radios .form-item:has(input:checked) label {
+  color: #667eea;
+}
+
+/* Estilo específico para ingreso (verde) */
+.movement-type-radios .form-item:has(input[value="1"]:checked) {
+  border-color: #48bb78;
+  background: linear-gradient(135deg, #48bb7815, #38a16915);
+  box-shadow: 0 4px 20px rgba(72, 187, 120, 0.25);
+}
+
+.movement-type-radios .form-item:has(input[value="1"]:checked) label {
+  color: #48bb78;
+}
+
+/* Estilo específico para gasto (rojo) */
+.movement-type-radios .form-item:has(input[value="0"]:checked) {
+  border-color: #e53e3e;
+  background: linear-gradient(135deg, #e53e3e15, #c5303015);
+  box-shadow: 0 4px 20px rgba(229, 62, 62, 0.25);
+}
+
+.movement-type-radios .form-item:has(input[value="0"]:checked) label {
+  color: #e53e3e;
+}
+
+/* Agregar iconos con CSS */
+.movement-type-radios .form-item:has(input[value="1"]) label::before {
+  content: "💰 ";
+  margin-right: 8px;
+}
+
+.movement-type-radios .form-item:has(input[value="0"]) label::before {
+  content: "💸 ";
+  margin-right: 8px;
+}
+
+/* Botones estilo panel de usuario */
+.form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e1e5e9;
+}
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  transition: all 0.2s ease;
+  min-width: 120px;
+}
+
+.btn-primary {
+  background: #48bb78;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #38a169;
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
+.btn-secondary {
+  background: #4299e1;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #3182ce;
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
+.btn-cancel {
+  color: white;
+  text-decoration: none;
+}
+
+/* Tips section igual al panel de usuario */
+.tips-section {
+  background: #f7fafc;
+  border-radius: 8px;
+  border-left: 4px solid #4299e1;
+  padding: 20px;
+}
+
+.tips-section h3 {
+  color: #2d3748;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  font-size: 1.1em;
+}
+
+.tips-section h3 span {
+  margin-left: 8px;
+}
+
+.tips-section ul {
+  color: #4a5568;
+  line-height: 1.6;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.tips-section li {
+  margin-bottom: 8px;
+}
+
+/* Estados de error */
+.form-item--error .form-select,
+.form-item--error .form-number,
+.form-item--error .form-textarea {
+  border-color: #e53e3e;
+  background: #fed7d7;
+}
+
+.form-item--error .error {
+  color: #e53e3e;
+  font-size: 14px;
+  margin-top: 5px;
+  font-weight: 600;
+}
+
+/* Contador de caracteres */
+.char-counter {
+  font-size: 12px;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+/* Animaciones */
+.form-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.tips-section {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsividad igual al panel de usuario */
+@media (max-width: 768px) {
+  .moneylink-create-tiquet-form {
+    margin: 10px;
+    padding: 10px;
+  }
+  
+  .form-card {
+    padding: 20px;
+  }
+  
+  .hero-section {
+    padding: 20px 15px;
+    margin-bottom: 20px;
+  }
+  
+  .hero-section h1 {
+    font-size: 2em !important;
+  }
+  
+  .movement-type-radios {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .btn {
+    width: 100%;
+  }
+}
+
+/* Ocultar títulos de página automáticos como en el panel */
+body.path-moneylink-tiquets .block-page-title-block h1.page-title,
+body.path-moneylink-tiquets .title.page-title,
+body.path-moneylink-tiquets h1.title.page-title,
+.path-moneylink-tiquets .block-page-title-block h1.page-title,
+.path-moneylink-tiquets .title.page-title,
+.path-moneylink-tiquets h1.title.page-title {
+  display: none !important;
+}
+
+/* Específico para todas las rutas de moneylink_tiquets */
+body[class*="path-ml-tiquets"] .block-page-title-block h1.page-title,
+body[class*="path-ml-tiquets"] .title.page-title,
+body[class*="path-ml-tiquets"] h1.title.page-title {
+  display: none !important;
+}

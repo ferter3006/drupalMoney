@@ -43,7 +43,7 @@ final class MoneyLinkApiSalasService
       return [
         'status' => 0, 
         'message' => 'Authentication expired. Please log in again.',
-        'redirect_to_login' => true
+        'redirect_to_logout' => true
       ];
     }
 
@@ -65,18 +65,30 @@ final class MoneyLinkApiSalasService
         $this->storeService->clearUserData();
         \Drupal::service('session_manager')->destroy();
         
+        \Drupal::logger('moneylink_auth')->warning('API returned 401 during getMySalas for user @uid', [
+          '@uid' => \Drupal::currentUser()->id(),
+        ]);
+        
         return [
           'status' => 0, 
           'message' => 'Authentication expired. Please log in again.',
-          'redirect_to_login' => true
+          'redirect_to_logout' => true
         ];
       }
+      
+      \Drupal::logger('moneylink_auth')->error('API error during getMySalas: @message', [
+        '@message' => $e->getMessage(),
+      ]);
       
       return [
         'status' => 0,
         'message' => 'Error fetching user salas: ' . $e->getMessage(),
       ];
     } catch (\Exception $e) {
+      \Drupal::logger('moneylink_auth')->error('Unexpected error during getMySalas: @message', [
+        '@message' => $e->getMessage(),
+      ]);
+      
       return [
         'status' => 0,
         'message' => 'Error fetching user salas: ' . $e->getMessage(),
@@ -114,18 +126,30 @@ final class MoneyLinkApiSalasService
         $this->storeService->clearUserData();
         \Drupal::service('session_manager')->destroy();
         
+        \Drupal::logger('moneylink_auth')->warning('API returned 401 during getSalaInfo for user @uid', [
+          '@uid' => \Drupal::currentUser()->id(),
+        ]);
+        
         return [
           'status' => 0, 
           'message' => 'Authentication expired. Please log in again.',
-          'redirect_to_login' => true
+          'redirect_to_logout' => true
         ];
       }
+      
+      \Drupal::logger('moneylink_auth')->error('API error during getSalaInfo: @message', [
+        '@message' => $e->getMessage(),
+      ]);
       
       return [
         'status' => 0,
         'message' => 'Error fetching sala info: ' . $e->getMessage(),
       ];
     } catch (\Exception $e) {
+      \Drupal::logger('moneylink_auth')->error('Unexpected error during getSalaInfo: @message', [
+        '@message' => $e->getMessage(),
+      ]);
+      
       return [
         'status' => 0,
         'message' => 'Error fetching sala info: ' . $e->getMessage(),
@@ -171,21 +195,181 @@ final class MoneyLinkApiSalasService
         $this->storeService->clearUserData();
         \Drupal::service('session_manager')->destroy();
         
+        \Drupal::logger('moneylink_auth')->warning('API returned 401 during createSala for user @uid', [
+          '@uid' => \Drupal::currentUser()->id(),
+        ]);
+        
         return [
           'status' => 0, 
           'message' => 'Authentication expired. Please log in again.',
-          'redirect_to_login' => true
+          'redirect_to_logout' => true
         ];
       }
+      
+      \Drupal::logger('moneylink_auth')->error('API error during createSala: @message', [
+        '@message' => $e->getMessage(),
+      ]);
       
       return [
         'status' => 0,
         'message' => 'Error creating sala: ' . $e->getMessage(),
       ];
     } catch (\Exception $e) {
+      \Drupal::logger('moneylink_auth')->error('Unexpected error during createSala: @message', [
+        '@message' => $e->getMessage(),
+      ]);
+      
       return [
         'status' => 0,
         'message' => 'Error creating sala: ' . $e->getMessage(),
+      ];
+    }
+  }
+
+  /**
+   * Elimina una sala específica del usuario.
+   * 
+   * @param string $salaId
+   *   ID de la sala a eliminar.
+   * 
+   * @return array
+   *   Respuesta de la API con el resultado de la eliminación o error.
+   */
+  public function deleteSala(string $salaId): array
+  {
+    $token = $this->storeService->getAuthToken();
+
+    if (!$token) {
+      return ['status' => 0, 'message' => 'User not authenticated.'];
+    }
+
+    try {
+      $response = $this->httpClient->delete(self::API_BASE_URL . '/' . $salaId, [
+        'headers' => [
+          'Content-Type' => 'application/json',
+          'Accept' => 'application/json',
+          'Authorization' => 'Bearer ' . $token,
+        ],
+      ]);
+
+      $data = json_decode($response->getBody()->getContents(), true);
+
+      \Drupal::logger('moneylink_auth')->info('Sala @sala_id deleted successfully by user @uid', [
+        '@sala_id' => $salaId,
+        '@uid' => \Drupal::currentUser()->id(),
+      ]);
+
+      return $data;
+    } catch (\GuzzleHttp\Exception\ClientException $e) {
+      // Si es un error 401, limpiar token inválido
+      if ($e->getResponse() && $e->getResponse()->getStatusCode() === 401) {
+        $this->storeService->clearUserData();
+        \Drupal::service('session_manager')->destroy();
+        
+        \Drupal::logger('moneylink_auth')->warning('API returned 401 during deleteSala for user @uid', [
+          '@uid' => \Drupal::currentUser()->id(),
+        ]);
+        
+        return [
+          'status' => 0, 
+          'message' => 'Authentication expired. Please log in again.',
+          'redirect_to_logout' => true
+        ];
+      }
+      
+      \Drupal::logger('moneylink_auth')->error('API error during deleteSala: @message', [
+        '@message' => $e->getMessage(),
+      ]);
+      
+      return [
+        'status' => 0,
+        'message' => 'Error deleting sala: ' . $e->getMessage(),
+      ];
+    } catch (\Exception $e) {
+      \Drupal::logger('moneylink_auth')->error('Unexpected error during deleteSala: @message', [
+        '@message' => $e->getMessage(),
+      ]);
+      
+      return [
+        'status' => 0,
+        'message' => 'Error deleting sala: ' . $e->getMessage(),
+      ];
+    }
+  }
+
+  /**
+   * Actualiza el nombre de una sala específica.
+   * 
+   * @param string $salaId
+   *   ID de la sala a actualizar.
+   * @param string $newName
+   *   Nuevo nombre para la sala.
+   * 
+   * @return array
+   *   Respuesta de la API con el resultado de la actualización o error.
+   */
+  public function updateSala(string $salaId, string $newName): array
+  {
+    $token = $this->storeService->getAuthToken();
+
+    if (!$token) {
+      return ['status' => 0, 'message' => 'User not authenticated.'];
+    }
+
+    try {
+      $response = $this->httpClient->patch(self::API_BASE_URL . '/' . $salaId, [
+        'headers' => [
+          'Content-Type' => 'application/json',
+          'Accept' => 'application/json',
+          'Authorization' => 'Bearer ' . $token,
+        ],
+        'json' => [
+          'name' => $newName,
+        ],
+      ]);
+
+      $data = json_decode($response->getBody()->getContents(), true);
+
+      \Drupal::logger('moneylink_auth')->info('Sala @sala_id updated successfully by user @uid. New name: @name', [
+        '@sala_id' => $salaId,
+        '@uid' => \Drupal::currentUser()->id(),
+        '@name' => $newName,
+      ]);
+
+      return $data;
+    } catch (\GuzzleHttp\Exception\ClientException $e) {
+      // Si es un error 401, limpiar token inválido
+      if ($e->getResponse() && $e->getResponse()->getStatusCode() === 401) {
+        $this->storeService->clearUserData();
+        \Drupal::service('session_manager')->destroy();
+        
+        \Drupal::logger('moneylink_auth')->warning('API returned 401 during updateSala for user @uid', [
+          '@uid' => \Drupal::currentUser()->id(),
+        ]);
+        
+        return [
+          'status' => 0, 
+          'message' => 'Authentication expired. Please log in again.',
+          'redirect_to_logout' => true
+        ];
+      }
+      
+      \Drupal::logger('moneylink_auth')->error('API error during updateSala: @message', [
+        '@message' => $e->getMessage(),
+      ]);
+      
+      return [
+        'status' => 0,
+        'message' => 'Error updating sala: ' . $e->getMessage(),
+      ];
+    } catch (\Exception $e) {
+      \Drupal::logger('moneylink_auth')->error('Unexpected error during updateSala: @message', [
+        '@message' => $e->getMessage(),
+      ]);
+      
+      return [
+        'status' => 0,
+        'message' => 'Error updating sala: ' . $e->getMessage(),
       ];
     }
   }

@@ -1,0 +1,4 @@
+services:
+  moneylink_apicategorias.service:
+    class: Drupal\moneylink_apicategorias\MoneyLinkApiCategoriasService
+    arguments: ['@http_client', '@moneylink_store.service']

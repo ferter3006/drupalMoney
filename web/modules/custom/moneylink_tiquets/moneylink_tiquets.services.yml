@@ -1,0 +1,4 @@
+services:
+  moneylink_tiquets.form_helper:
+    class: Drupal\moneylink_tiquets\Service\TiquetsFormHelper
+    arguments: ['@moneylink_apitiquets.service', '@moneylink_apicategorias.service']

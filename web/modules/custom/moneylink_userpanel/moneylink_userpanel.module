@@ -37,118 +37,13 @@ function moneylink_userpanel_theme() {
       ],
       'template' => 'moneylink-user-menu',
     ],
+    'moneylink_userpanel' => [
+      'variables' => [
+        'user_data' => NULL,
+      ],
+      'template' => 'moneylink-userpanel',
+    ],
   ];
 }
 
-/**
- * Implements hook_preprocess_page().
- */
-function moneylink_userpanel_preprocess_page(&$variables) {
-  // No hacer nada aquí
-}
 
-/**
- * Implements hook_page_attachments().
- */
-function moneylink_userpanel_page_attachments(array &$attachments) {
-  // Verificar si el usuario está autenticado en MoneyLink
-  $store_service = \Drupal::service('moneylink_store.service');
-  $user_data = $store_service->getUserData();
-  
-  if ($user_data) {
-    // Agregar CSS personalizado para el espaciado del menú
-    $attachments['#attached']['html_head'][] = [
-      [
-        '#tag' => 'style',
-        '#value' => '
-          .site-header .menu--main .menu__item {
-            margin-right: 1.5rem;
-          }
-          .site-header .menu--main .menu__item:last-child {
-            margin-right: 0;
-          }
-        ',
-      ],
-      'moneylink_menu_spacing'
-    ];
-  }
-}
-
-/**
- * Implements hook_preprocess_menu().
- */
-function moneylink_userpanel_preprocess_menu(&$variables) {
-  // Solo modificar el menú principal
-  if ($variables['menu_name'] === 'main') {
-    // Verificar si el usuario está autenticado en MoneyLink
-    $store_service = \Drupal::service('moneylink_store.service');
-    $user_data = $store_service->getUserData();
-    $token = $store_service->getAuthToken();
-    
-    if ($user_data && $token) {
-      // Usuario logueado - agregar enlaces de navegación
-      $moneylink_items = [
-        'userpanel' => [
-          'title' => 'Panel de Usuario',
-          'url' => \Drupal\Core\Url::fromRoute('moneylink_userpanel'),
-          'weight' => 10,
-        ],
-        'salas' => [
-          'title' => 'Mis Salas', 
-          'url' => \Drupal\Core\Url::fromRoute('moneylink_salas.content'),
-          'weight' => 11,
-        ],
-        'perfil' => [
-          'title' => 'Mi Perfil',
-          'url' => \Drupal\Core\Url::fromRoute('moneylink_perfil.content'),
-          'weight' => 12,
-        ],
-        'logout' => [
-          'title' => 'Cerrar Sesión',
-          'url' => \Drupal\Core\Url::fromRoute('moneylink_logout'),
-          'weight' => 13,
-        ],
-      ];
-    } else {
-      // Usuario NO logueado - solo mostrar login
-      $moneylink_items = [
-        'login' => [
-          'title' => 'Iniciar Sesión',
-          'url' => \Drupal\Core\Url::fromRoute('ml.login'),
-          'weight' => 10,
-        ],
-      ];
-    }
-    
-    // Agregar los elementos al menú existente con estructura completa
-    foreach ($moneylink_items as $key => $item) {
-      $variables['items'][$key] = [
-        'title' => $item['title'],
-        'url' => $item['url'],
-        'weight' => $item['weight'],
-        'attributes' => new \Drupal\Core\Template\Attribute(),
-        'below' => [],
-        'in_active_trail' => FALSE,
-        'is_expanded' => FALSE,
-        'is_collapsed' => FALSE,
-        'original_link' => (object) [
-          'enabled' => 1,
-          'title' => $item['title'],
-          'menu_name' => 'main',
-          'weight' => $item['weight'],
-        ]
-      ];
-    }
-    
-    // Ordenar los elementos por peso
-    uasort($variables['items'], function($a, $b) {
-      $a_weight = $a['weight'] ?? 0;
-      $b_weight = $b['weight'] ?? 0;
-      return $a_weight <=> $b_weight;
-    });
-    
-    // Agregar contextos de cache para que el menú se actualice correctamente
-    $variables['#cache']['contexts'][] = 'user';
-    $variables['#cache']['contexts'][] = 'session';
-  }
-}

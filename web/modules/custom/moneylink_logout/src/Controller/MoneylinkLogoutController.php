@@ -34,16 +34,23 @@ final class MoneylinkLogoutController extends ControllerBase
    */
   public function __invoke(): RedirectResponse
   {
+    // Realizar logout de MoneyLink
     $response = $this->authService->logout();
+
+    // Realizar logout de Drupal independientemente del resultado de MoneyLink
+    if (\Drupal::currentUser()->isAuthenticated()) {
+      \Drupal::service('user.auth')->logout();
+    }
 
     if (!empty($response['status']) && $response['status'] == 1) {
       $this->messenger()->addStatus($this->t('You have been logged out successfully.'));
     } else {
-      $message = $response['message'] ?? $this->t('An unknown error occurred during logout.');
-      $this->messenger()->addError($this->t('Logout failed: @message', ['@message' => $message]));
+      // No mostrar error si el logout local fue exitoso
+      $message = $response['message'] ?? $this->t('Session cleared successfully.');
+      $this->messenger()->addStatus($this->t('Logout completed: @message', ['@message' => $message]));
     }
 
     // Redirigir a home después del logout
-    return new RedirectResponse('/home');
+    return new RedirectResponse('/');
   }
 }
